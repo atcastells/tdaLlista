@@ -1,17 +1,15 @@
 /**
  * Created by acastells on 12/02/16.
  */
-import java.io.IOException;
 import java.util.Scanner;
 public class tdaLlista {
 
-    private final int MAXIM = 100;
-    String[] llistaArray = new String[MAXIM];
-    int total = 0;
+    public final int MAXIM = 100;
+    public String[] llistaArray = new String[MAXIM];
+    public int total = 0;
 
     public static void main(String[] args) {
-        tdaLlista llistaCognoms = new tdaLlista();
-        llistaCognoms.inici();
+        new tdaLlista().inici();
     }
 
     public void inici() {
@@ -31,21 +29,18 @@ public class tdaLlista {
         int opcio = 0;
         while (opcio < menu.length) {
             opcio = funcioMenu(menu);
-            imprimir("Menu DEBUG");
             switch (opcio) {
                 case 1:
                     int posicio = 0;
                     do {
-                        posicio = readInt("Introdueix una posició: ");
+                        posicio = readInt("Introdueix una posició entre "+0+" i "+total+": ");
                     }
                     while (!potInserir(posicio));
                     String cognom = readString("Introdueix un Cognom: ");
                     if (inserir(cognom, posicio)) {
                         imprimir("S'ha inserit correctament");
-                        total++;
                     }
-            }
-            break;
+                    break;
             /*
                 case 2:
                     localitzar();
@@ -68,29 +63,49 @@ public class tdaLlista {
                 case 8:
                     darrer();
                     break;
-                case 9:
+                */case 9:
                     imprimir();
-                    break;
+                    break;/*
                 case 10:
                     ordena();
                     break;*/
+            }
         }
     }
 
     /*Funcio Inserir*/
     boolean inserir(String cognom, int posicio) {
+        if(!potInserir(posicio)){
+            return false;
+        }
         if (llistaBuida()) {
             llistaArray[posicio] = cognom;
+            total++;
+            return true;
         }
         else{
             desplaçarLlista(posicio);
             llistaArray[posicio] = cognom;
+            total++;
+            return true;
         }
-        return true;
+
+    }
+
+    void imprimir(){
+        if(llistaBuida()){
+            imprimir("La llista està buida");
+        }
+        else {
+            for (int i = 0; i < total; i++) {
+                imprimir("#" + i + "\t" + llistaArray[i]);
+            }
+        }
+        enterContinuar();
     }
 
     /*Funcions auxiliars*/
-    int funcioMenu(String[] menu) {  //Retorna la opcio del menu
+    int funcioMenu(String[] menu) {                                     //Retorna la opcio del menu
         for (int i = 0; i < menu.length; i++) {
             System.out.println(menu[i]);
         }
@@ -98,39 +113,26 @@ public class tdaLlista {
         return opcio;
     }
 
-    boolean potInserir(int posicio) {
-        if (total == 0 && posicio == 0 || total > 0 && posicio <= total) {
+    boolean potInserir(int posicio) {                                   //Boolea per cuan no es pot inserir
+        if (total == 0 && posicio == 0 || total > 0 && posicio <= total || total == MAXIM) {
             return true;
         } else {
             return false;
         }
     }
 
-    int readInt(String missatge) {           //Funció per llegir enters
-        Scanner sc = new Scanner(System.in);
-        int newInt = 0;
-        boolean finalitzat;
-        do{
-            System.out.print(missatge);
-            finalitzat = sc.hasNextInt();
-            if(finalitzat){
-                newInt = sc.nextInt();
-                sc.nextLine();
-            }
-            else{
-                sc.nextLine();
-            }
-
-        }
-        while(!finalitzat);
+    int readInt(String missatge) {                                      //Funció per llegir enters
+        int newInt;
+        Scanner entrada = new Scanner(System.in);
+        imprimir(missatge);
+        newInt = entrada.nextInt();
         return newInt;
     }
 
-    String readString(String missatge) {     //Funció per llegir Strings
+    String readString(String missatge) {                                //Funció per llegir Strings
         Scanner sc = new Scanner(System.in);
         System.out.print(missatge);
         String newString = sc.nextLine();
-        sc.close();
         return newString;
     }
 
@@ -147,7 +149,9 @@ public class tdaLlista {
     }
 
      void enterContinuar() {
+         Scanner sc = new Scanner(System.in);
          System.out.println("Prem enter per continuar... ");
+         sc.nextLine();
      }
 
     void desplaçarLlista(int posicio){
