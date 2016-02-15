@@ -29,7 +29,7 @@ public class tdaLlista {
         int opcio = 0;
         while (opcio < menu.length) {
             opcio = funcioMenu(menu);
-            switch (opcio) {bbb
+            switch (opcio) {
                 case 1:
                     int posicio = 0;
                     do {
