@@ -31,25 +31,37 @@ public class tdaLlista {
         while(opcio < menu.length){
             switch(opcio){
                 case 1:
+                    int posicio = readInt("Introdueix una posició: ");
+                    String cognom = readString("Introdueix un Cognom");
                     inserir();
+                    break;
                 case 2:
                     localitzar();
+                    break;
                 case 3:
                     recuperar();
+                    break;
                 case 4:
                     suprimir();
+                    break;
                 case 5:
                     suprimir_dada();
+                    break;
                 case 6:
                     anula();
+                    break;
                 case 7:
                     primer();
+                    break;
                 case 8:
                     darrer();
+                    break;
                 case 9:
                     imprimir();
+                    break;
                 case 10:
                     ordena();
+                    break;
             }
         }
 
@@ -62,6 +74,7 @@ public class tdaLlista {
         int opcio = readInt("Introdueix una opció del menú: ");
         return opcio;
     }
+    /*Funcio Inserir*/
 
 
     /*Funcions auxiliars*/
