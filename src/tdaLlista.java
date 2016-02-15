@@ -29,7 +29,7 @@ public class tdaLlista {
         int opcio = 0;
         while (opcio < menu.length) {
             opcio = funcioMenu(menu);
-            switch (opcio) {
+            switch (opcio) {bbb
                 case 1:
                     int posicio = 0;
                     do {
@@ -64,7 +64,7 @@ public class tdaLlista {
                     darrer();
                     break;
                 */case 9:
-                    imprimir();
+                    imprimirArray();
                     break;/*
                 case 10:
                     ordena();
@@ -92,7 +92,7 @@ public class tdaLlista {
 
     }
 
-    void imprimir(){
+    void imprimirArray(){
         if(llistaBuida()){
             imprimir("La llista està buida");
         }
