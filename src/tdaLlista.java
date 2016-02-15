@@ -1,6 +1,7 @@
 /**
  * Created by acastells on 12/02/16.
  */
+import java.io.IOException;
 import java.util.Scanner;
 public class tdaLlista {
 
@@ -27,8 +28,10 @@ public class tdaLlista {
                 "10\tOrdena",
                 "11\tSurt"
         };
-        int opcio = funcioMenu(menu);
+        int opcio = 0;
         while (opcio < menu.length) {
+            opcio = funcioMenu(menu);
+            imprimir("Menu DEBUG");
             switch (opcio) {
                 case 1:
                     int posicio = 0;
@@ -38,7 +41,8 @@ public class tdaLlista {
                     while (!potInserir(posicio));
                     String cognom = readString("Introdueix un Cognom: ");
                     if (inserir(cognom, posicio)) {
-
+                        imprimir("S'ha inserit correctament");
+                        total++;
                     }
             }
             break;
@@ -74,12 +78,13 @@ public class tdaLlista {
     }
 
     /*Funcio Inserir*/
-    boolean inserir(String cognomn, int posicio) {
+    boolean inserir(String cognom, int posicio) {
         if (llistaBuida()) {
-            llistaArray[posicio] = cognomn;
+            llistaArray[posicio] = cognom;
         }
         else{
-
+            desplaçarLlista(posicio);
+            llistaArray[posicio] = cognom;
         }
         return true;
     }
@@ -110,6 +115,7 @@ public class tdaLlista {
             finalitzat = sc.hasNextInt();
             if(finalitzat){
                 newInt = sc.nextInt();
+                sc.nextLine();
             }
             else{
                 sc.nextLine();
@@ -140,15 +146,14 @@ public class tdaLlista {
         System.out.println(text);
     }
 
-    void enterContinuar() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Prem enter per continuar...");
-        sc.nextLine();
-        sc.close();
-    }
+     void enterContinuar() {
+         System.out.println("Prem enter per continuar... ");
+     }
 
     void desplaçarLlista(int posicio){
-        
+        for(int i = total;i > posicio;i--){
+            llistaArray[i] = llistaArray[i-1];
+        }
     }
 }
 
