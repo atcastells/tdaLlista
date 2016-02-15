@@ -31,7 +31,7 @@ public class tdaLlista {
             opcio = funcioMenu(menu);
             switch (opcio) {
                 case 1:
-                    int posicio = 0;
+                    int posicio;
                     do {
                         posicio = readInt("Introdueix una posició entre "+0+" i "+total+": ");
                     }
@@ -41,13 +41,27 @@ public class tdaLlista {
                         imprimir("S'ha inserit correctament");
                     }
                     break;
-            /*
+
                 case 2:
-                    localitzar();
+                    cognom = readString("Introdueix un Cognom per buscar: ");
+                    int posicioCognom = localitzar(cognom);
+                    if(posicioCognom == -1){
+                        imprimir("No s'ha trobat el cognom.");
+                    }
+                    else{
+                        imprimir("El cognom '"+cognom+"' està a la posició nº: "+posicioCognom);
+                    }
                     break;
                 case 3:
-                    recuperar();
-                    break;
+                    posicio = readInt("Introdueix una posició per recuperar les dades que té: ");
+                    cognom = recuperar(posicio);
+                    if (cognom.equalsIgnoreCase(null)){
+
+                    }
+                    else{
+                        imprimir("A la posició nº"+posicio+" estaba el cognom: "+cognom);
+                    }
+                    break;/*
                 case 4:
                     suprimir();
                     break;
@@ -92,6 +106,7 @@ public class tdaLlista {
 
     }
 
+    /*Funció Imprimir Array*/
     void imprimirArray(){
         if(llistaBuida()){
             imprimir("La llista està buida");
@@ -104,6 +119,26 @@ public class tdaLlista {
         enterContinuar();
     }
 
+    /*Funció Localitzar*/
+    int localitzar(String cognom){
+        int posicio = 0;
+        for (int i = 0; i < total; i++){
+            if(llistaArray[i].equalsIgnoreCase(cognom)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /*Funció recuperar*/
+    String recuperar(int posicio){
+        if(posicio < total && !llistaBuida()){
+            return llistaArray[posicio];
+        }
+        else{
+            return null;
+        }
+    }
     /*Funcions auxiliars*/
     int funcioMenu(String[] menu) {                                     //Retorna la opcio del menu
         for (int i = 0; i < menu.length; i++) {
@@ -124,8 +159,12 @@ public class tdaLlista {
     int readInt(String missatge) {                                      //Funció per llegir enters
         int newInt;
         Scanner entrada = new Scanner(System.in);
-        imprimir(missatge);
-        newInt = entrada.nextInt();
+        boolean preparat = entrada.hasNextInt();
+        do {
+            imprimir(missatge);
+            newInt = entrada.nextInt();
+        }
+        while (!preparat);
         return newInt;
     }
 
