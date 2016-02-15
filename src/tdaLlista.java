@@ -7,7 +7,7 @@ public class tdaLlista {
     String[] llista = new String[MAXIM];
     int total = 0;
 
- public   static void main(String[] args){
+    public   static void main(String[] args){
         new tdaLlista().inici();
 
     }
@@ -70,17 +70,17 @@ public class tdaLlista {
         Scanner sc = new Scanner(System.in);
         boolean correcte;
         int newInt = 0;
-       do{
-           System.out.print(missatge);
-           correcte = sc.hasNextInt();
-           if (correcte){
-               newInt = sc.nextInt();
-           }
-           else{
-               sc.nextLine();
-           }
-       }
-       while(!correcte);
+        do{
+            System.out.print(missatge);
+            correcte = sc.hasNextInt();
+            if (correcte){
+                newInt = sc.nextInt();
+            }
+            else{
+                sc.nextLine();
+            }
+        }
+        while(!correcte);
         sc.close();
         return newInt;
     }
@@ -100,6 +100,6 @@ public class tdaLlista {
         else{
             return false;
         }
-        }
     }
+}
 
