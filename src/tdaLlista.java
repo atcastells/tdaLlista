@@ -3,17 +3,17 @@
  */
 import java.util.Scanner;
 public class tdaLlista {
+
     private final int MAXIM = 100;
-    String[] llista = new String[MAXIM];
+    String[] llistaArray = new String[MAXIM];
     int total = 0;
 
-    public   static void main(String[] args){
-        new tdaLlista().inici();
-
+    public static void main(String[] args) {
+        tdaLlista llistaCognoms = new tdaLlista();
+        llistaCognoms.inici();
     }
 
-    void inici(){
-
+    public void inici() {
         String[] menu = {   //Array amb les opcions del menu
                 "1\tInserir",
                 "2\tLocalitzar",
@@ -28,13 +28,21 @@ public class tdaLlista {
                 "11\tSurt"
         };
         int opcio = funcioMenu(menu);
-        while(opcio < menu.length){
-            switch(opcio){
+        while (opcio < menu.length) {
+            switch (opcio) {
                 case 1:
-                    int posicio = readInt("Introdueix una posició: ");
-                    String cognom = readString("Introdueix un Cognom");
-                    inserir();
-                    break;
+                    int posicio = 0;
+                    do {
+                        posicio = readInt("Introdueix una posició: ");
+                    }
+                    while (!potInserir(posicio));
+                    String cognom = readString("Introdueix un Cognom: ");
+                    if (inserir(cognom, posicio)) {
+
+                    }
+            }
+            break;
+            /*
                 case 2:
                     localitzar();
                     break;
@@ -61,58 +69,86 @@ public class tdaLlista {
                     break;
                 case 10:
                     ordena();
-                    break;
-            }
+                    break;*/
         }
-
     }
 
-    int funcioMenu(String[] menu){  //Retorna la opcio del menu
-        for (int i = 0; i < menu.length; i++){
+    /*Funcio Inserir*/
+    boolean inserir(String cognomn, int posicio) {
+        if (llistaBuida()) {
+            llistaArray[posicio] = cognomn;
+        }
+        else{
+
+        }
+        return true;
+    }
+
+    /*Funcions auxiliars*/
+    int funcioMenu(String[] menu) {  //Retorna la opcio del menu
+        for (int i = 0; i < menu.length; i++) {
             System.out.println(menu[i]);
         }
         int opcio = readInt("Introdueix una opció del menú: ");
         return opcio;
     }
-    /*Funcio Inserir*/
 
+    boolean potInserir(int posicio) {
+        if (total == 0 && posicio == 0 || total > 0 && posicio <= total) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-    /*Funcions auxiliars*/
-
-    int readInt(String missatge){
+    int readInt(String missatge) {           //Funció per llegir enters
         Scanner sc = new Scanner(System.in);
-        boolean correcte;
         int newInt = 0;
+        boolean finalitzat;
         do{
             System.out.print(missatge);
-            correcte = sc.hasNextInt();
-            if (correcte){
+            finalitzat = sc.hasNextInt();
+            if(finalitzat){
                 newInt = sc.nextInt();
             }
             else{
                 sc.nextLine();
             }
+
         }
-        while(!correcte);
-        sc.close();
+        while(!finalitzat);
         return newInt;
     }
 
-    String readString(String missatge){
-        Scanner sc=new Scanner(System.in);
+    String readString(String missatge) {     //Funció per llegir Strings
+        Scanner sc = new Scanner(System.in);
         System.out.print(missatge);
-        String newString= sc.nextLine();
+        String newString = sc.nextLine();
         sc.close();
         return newString;
     }
 
-    boolean llistaBuida(){
+    boolean llistaBuida() {                  //Funció per saber si la llista està buida
         if (total == 0) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
+    }
+
+    void imprimir(String text) {             //Funció per imprimir un missatge
+        System.out.println(text);
+    }
+
+    void enterContinuar() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Prem enter per continuar...");
+        sc.nextLine();
+        sc.close();
+    }
+
+    void desplaçarLlista(int posicio){
+        
     }
 }
 
