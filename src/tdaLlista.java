@@ -3,6 +3,7 @@
  *
  *
  */
+import java.util.InputMismatchException;
 import java.util.Scanner;
 public class tdaLlista {
 
@@ -34,13 +35,14 @@ public class tdaLlista {
             switch (opcio) {
                 case 1:
                     int posicio;
-                    do {
                         posicio = readInt("Introdueix una posició entre "+0+" i "+total+": ");
-                    }
-                    while (!potInserir(posicio));
                     String cognom = readString("Introdueix un Cognom: ");
                     if (inserir(cognom, posicio)) {
                         imprimir("S'ha inserit correctament");
+                        enterContinuar();
+                    }
+                    else {
+                        imprimir("Posició incorrecta");
                     }
                     break;
 
@@ -159,20 +161,20 @@ public class tdaLlista {
     }
 
     int readInt(String missatge) {                                      //Funció per llegir enters
-        int newInt;
-        Scanner entrada = new Scanner(System.in);
-        boolean preparat = entrada.hasNextInt();
-        do {
-            imprimir(missatge);
-            newInt = entrada.nextInt();
-        }
-        while (!preparat);
-        return newInt;
+        int newInt = 0;
+        Scanner sc = new Scanner(System.in);
+            try {
+                imprimir(missatge);
+                return sc.nextInt();
+            } catch (InputMismatchException e) {
+                imprimir("Error d'entrada, introdueix una xifra!\n");
+                return (readInt(missatge));
+            }
     }
 
     String readString(String missatge) {                                //Funció per llegir Strings
         Scanner sc = new Scanner(System.in);
-        System.out.print(missatge);
+       imprimir(missatge);
         String newString = sc.nextLine();
         return newString;
     }
@@ -186,12 +188,12 @@ public class tdaLlista {
     }
 
     void imprimir(String text) {             //Funció per imprimir un missatge
-        System.out.println(text);
+        System.out.print(text);
     }
 
      void enterContinuar() {
          Scanner sc = new Scanner(System.in);
-         System.out.println("Prem enter per continuar... ");
+         System.out.println("\nPrem enter per continuar... ");
          sc.nextLine();
      }
 
