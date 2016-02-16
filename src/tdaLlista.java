@@ -1,14 +1,15 @@
 /**
  * Created by acastells on 12/02/16.
- * Grup 2: Oscar Oliver, Aaron Castells, Adrià Montoro
+ *
  *
  */
+import java.util.InputMismatchException;
 import java.util.Scanner;
 public class tdaLlista {
 
-    public final int MAXIM = 100;                       //Constant MAXIM array
+    public final int MAXIM = 100;
     public String[] llistaArray = new String[MAXIM];
-    public int total = 0;                               //Variable total elements array
+    public int total = 0;
 
     public static void main(String[] args) {
         new tdaLlista().inici();
@@ -34,14 +35,14 @@ public class tdaLlista {
             switch (opcio) {
                 case 1:
                     int posicio;
-                    do {
                         posicio = readInt("Introdueix una posició entre "+0+" i "+total+": ");
-                    }
-                    while (!potInserir(posicio));
                     String cognom = readString("Introdueix un Cognom: ");
                     if (inserir(cognom, posicio)) {
                         imprimir("S'ha inserit correctament");
                         enterContinuar();
+                    }
+                    else {
+                        imprimir("Posició incorrecta");
                     }
                     break;
 
@@ -50,22 +51,19 @@ public class tdaLlista {
                     int posicioCognom = localitzar(cognom);
                     if(posicioCognom == -1){
                         imprimir("No s'ha trobat el cognom.");
-                        enterContinuar();
                     }
                     else{
                         imprimir("El cognom '"+cognom+"' està a la posició nº: "+posicioCognom);
-                        enterContinuar();
                     }
                     break;
                 case 3:
                     posicio = readInt("Introdueix una posició per recuperar les dades que té: ");
                     cognom = recuperar(posicio);
-                    if(cognom.equalsIgnoreCase("null")){
-                        imprimir("En aquesta posició no hi ha dades");
+                    if (cognom.equalsIgnoreCase(null)){
+
                     }
                     else{
-                        imprimir("En aquesta posició està el cognom: "+cognom);
-                        enterContinuar();
+                        imprimir("A la posició nº"+posicio+" estaba el cognom: "+cognom);
                     }
                     break;/*
                 case 4:
@@ -112,6 +110,19 @@ public class tdaLlista {
 
     }
 
+    /*Funció Imprimir Array*/
+    void imprimirArray(){
+        if(llistaBuida()){
+            imprimir("La llista està buida");
+        }
+        else {
+            for (int i = 0; i < total; i++) {
+                imprimir("#" + i + "\t" + llistaArray[i]);
+            }
+        }
+        enterContinuar();
+    }
+
     /*Funció Localitzar*/
     int localitzar(String cognom){
         int posicio = 0;
@@ -131,19 +142,6 @@ public class tdaLlista {
         else{
             return null;
         }
-    }
-
-    /*Funció Imprimir Array*/
-    void imprimirArray(){
-        if(llistaBuida()){
-            imprimir("La llista està buida");
-        }
-        else {
-            for (int i = 0; i < total; i++) {
-                imprimir("#" + i + "\t" + llistaArray[i]);
-            }
-        }
-        enterContinuar();
     }
     /*Funcions auxiliars*/
     int funcioMenu(String[] menu) {                                     //Retorna la opcio del menu
@@ -165,24 +163,18 @@ public class tdaLlista {
     int readInt(String missatge) {                                      //Funció per llegir enters
         int newInt = 0;
         Scanner sc = new Scanner(System.in);
-        boolean correcte;
-        do{
-            System.out.print(missatge);
-            correcte = sc.hasNextInt();
-            if (correcte){
-                newInt = sc.nextInt();
+            try {
+                imprimir(missatge);
+                return sc.nextInt();
+            } catch (InputMismatchException e) {
+                imprimir("Error d'entrada, introdueix una xifra!\n");
+                return (readInt(missatge));
             }
-            else{
-                sc.nextLine();
-            }
-        }
-        while(!correcte);
-        return newInt;
     }
 
     String readString(String missatge) {                                //Funció per llegir Strings
         Scanner sc = new Scanner(System.in);
-        System.out.print(missatge);
+       imprimir(missatge);
         String newString = sc.nextLine();
         return newString;
     }
@@ -196,12 +188,12 @@ public class tdaLlista {
     }
 
     void imprimir(String text) {             //Funció per imprimir un missatge
-        System.out.println(text);
+        System.out.print(text);
     }
 
      void enterContinuar() {
          Scanner sc = new Scanner(System.in);
-         System.out.println("Prem enter per continuar... ");
+         System.out.println("\nPrem enter per continuar... ");
          sc.nextLine();
      }
 
