@@ -1,6 +1,10 @@
 /**
- * Created by acastells on 12/02/16.
+ *          Created by acastells on 12/02/16.
+ *          Grup  2:    Oscar Oliver, Adrià Montoro, Aaron Castells
  *
+ *          Implementació del TDA Llista en java utilitzant funcions
+ *
+ *          Algorisme:
  *
  */
 import java.util.InputMismatchException;
@@ -197,7 +201,7 @@ public class tdaLlista {
          sc.nextLine();
      }
 
-    void desplaçarLlista(int posicio){
+    void desplaçarLlista(int posicio){                  //Funció per lliberar un espai a la array;
         for(int i = total;i > posicio;i--){
             llistaArray[i] = llistaArray[i-1];
         }
