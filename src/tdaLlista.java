@@ -1,5 +1,7 @@
 /**
  * Created by acastells on 12/02/16.
+ *
+ * //Mateu es raro
  */
 import java.util.Scanner;
 public class tdaLlista {
