@@ -11,8 +11,8 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 public class tdaLlista {
 
-    public final int MAXIM = 100;
-    public String[] llistaArray = new String[MAXIM];
+    public final int CAPACITAT= 100;
+    public String[] llistaArray = new String[CAPACITAT];
     public int total = 0;
 
     public static void main(String[] args) {
@@ -38,18 +38,15 @@ public class tdaLlista {
             opcio = funcioMenu(menu);
             switch (opcio) {
                 case 1:
-                    int posicio;
-                        posicio = readInt("Introdueix una posició entre "+0+" i "+total+": ");
+                       int  posicio = readInt("Introdueix una posició entre "+0+" i "+total+": ");
                     String cognom = readString("Introdueix un Cognom: ");
-                    if (inserir(cognom, posicio)) {
+                    if (inserir(cognom, posicio,llistaArray)) {
                         imprimir("S'ha inserit correctament");
-                        enterContinuar();
                     }
                     else {
                         imprimir("Posició incorrecta");
                     }
                     break;
-
                 case 2:
                     cognom = readString("Introdueix un Cognom per buscar: ");
                     int posicioCognom = localitzar(cognom);
@@ -63,16 +60,23 @@ public class tdaLlista {
                 case 3:
                     posicio = readInt("Introdueix una posició per recuperar les dades que té: ");
                     cognom = recuperar(posicio);
-                    if (cognom.equalsIgnoreCase(null)){
-
+                    if (cognom.equalsIgnoreCase("null")){
+                        imprimir("No hi han dades en aquesta posició.");
                     }
                     else{
                         imprimir("A la posició nº"+posicio+" estaba el cognom: "+cognom);
                     }
-                    break;/*
-                case 4:
-                    suprimir();
                     break;
+                case 4:
+                   posicio = readInt("Introdueix una posició per eliminar les seves dades: ");
+                   if ( suprimir(posicio)){
+                       imprimir("S'ha suprimit la dada correctament");
+                   }
+                    else{
+                       imprimir("No s'ha pogut eliminar la posició.");
+
+                   }
+                    break;/*
                 case 5:
                     suprimir_dada();
                     break;
@@ -92,22 +96,23 @@ public class tdaLlista {
                     ordena();
                     break;*/
             }
+            enterContinuar();
         }
     }
 
     /*Funcio Inserir*/
-    boolean inserir(String cognom, int posicio) {
+    boolean inserir(String cognom, int posicio, String[] cognoms) {
         if(!potInserir(posicio)){
             return false;
         }
         if (llistaBuida()) {
-            llistaArray[posicio] = cognom;
+            cognoms[posicio] = cognom;
             total++;
             return true;
         }
         else{
             desplaçarLlista(posicio);
-            llistaArray[posicio] = cognom;
+           cognoms[posicio] = cognom;
             total++;
             return true;
         }
@@ -124,7 +129,6 @@ public class tdaLlista {
                 imprimir("#" + i + "\t" + llistaArray[i]);
             }
         }
-        enterContinuar();
     }
 
     /*Funció Localitzar*/
@@ -144,7 +148,24 @@ public class tdaLlista {
             return llistaArray[posicio];
         }
         else{
-            return null;
+            return "null";
+        }
+    }
+
+    /*Funció Suprimir*/
+    boolean suprimir(int posicio){
+        if (llistaBuida() || !potEliminar(posicio)){
+            return false;
+        }
+        else{
+            if(posicio == total){
+                total--;
+                return true;
+            }
+            else{
+                eliminarPosicio(posicio);
+                return true;
+            }
         }
     }
     /*Funcions auxiliars*/
@@ -157,7 +178,14 @@ public class tdaLlista {
     }
 
     boolean potInserir(int posicio) {                                   //Boolea per cuan no es pot inserir
-        if (total == 0 && posicio == 0 || total > 0 && posicio <= total || total == MAXIM) {
+        if (total >= 0 && posicio <= total || total == MAXIM) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    boolean potEliminar(int posicio) {                                   //Boolea per cuan no es pot eliminar
+        if (total == 0 && posicio == 0 || total > 0 && posicio < total || total == MAXIM) {
             return true;
         } else {
             return false;
@@ -192,7 +220,7 @@ public class tdaLlista {
     }
 
     void imprimir(String text) {             //Funció per imprimir un missatge
-        System.out.print(text);
+        System.out.print(text+"\n");
     }
 
      void enterContinuar() {
@@ -204,6 +232,11 @@ public class tdaLlista {
     void desplaçarLlista(int posicio){                  //Funció per lliberar un espai a la array;
         for(int i = total;i > posicio;i--){
             llistaArray[i] = llistaArray[i-1];
+        }
+    }
+    void eliminarPosicio(int x){
+        for(int i = x ; i < total ;i++){
+            llistaArray[i] = llistaArray[i+1];
         }
     }
 }
