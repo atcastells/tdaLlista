@@ -5,15 +5,24 @@
  *          Implementació del TDA Llista en java utilitzant funcions
  *
  *          Algorisme:
+ *                      S'imprimeix el menú
+ *                      S'elegeix una opció del menú
+ *                      Mentre la opció sigui mes menuda que 11
+ *                           S'executa la opció seleccionada
+ *                      Sinó
+ *                             Surt
  *
  */
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class tdaLlista {
 
-    public final int CAPACITAT= 100;
+
+    /*Variables Globals*/
+
+    public final int CAPACITAT= 3;    //Constant max. Array
     public String[] llistaArray = new String[CAPACITAT];
-    public int quantitat = 0;
+    public int quantitat = 0;   //Variable elements array
 
     public static void main(String[] args) {
         new tdaLlista().inici();
@@ -33,7 +42,7 @@ public class tdaLlista {
                 "10\tOrdena",
                 "11\tSurt"
         };
-        int opcio = 0;
+        int opcio = 0;  //Control switch
         while (opcio < menu.length) {
             opcio = funcioMenu(menu);
             switch (opcio) {
@@ -107,11 +116,6 @@ public class tdaLlista {
         if(!potInserir(posicio)){
             return false;
         }
-        if (isEmpty()) {
-            cognoms[posicio] = cognom;
-            quantitat++;
-            return true;
-        }
         else{
             desplaçarLlista(posicio);
            cognoms[posicio] = cognom;
@@ -121,17 +125,7 @@ public class tdaLlista {
 
     }
 
-    /*Funció Imprimir Array*/
-    void imprimirArray(){
-        if(isEmpty()){
-            imprimir("La llista està buida");
-        }
-        else {
-            for (int i = 0; i < quantitat; i++) {
-                imprimir("#" + i + "\t" + llistaArray[i]);
-            }
-        }
-    }
+
 
     /*Funció Localitzar*/
     int localitzar(String cognom){
@@ -172,6 +166,18 @@ public class tdaLlista {
         }
     }
 
+
+    /*Funció Imprimir Array*/
+    void imprimirArray(){
+        if(isEmpty()){
+            imprimir("La llista està buida");
+        }
+        else {
+            for (int i = 0; i < quantitat; i++) {
+                imprimir("#" + i + "\t" + llistaArray[i]);
+            }
+        }
+    }
     /*###############################################
     Funcions aux. tdaLlista
     ###############################################*/
@@ -197,9 +203,10 @@ public class tdaLlista {
     }
 
     boolean potInserir(int posicio) {                                   //Boolea per cuan es pot inserir
-        if (quantitat >= 0 && posicio <= quantitat || quantitat == CAPACITAT) {
-            return true;
-        } else {
+        if(quantitat >= 0 && posicio <= quantitat){
+            return (isEmpty() || !isFull());
+        }
+        else {
             return false;
         }
     }
