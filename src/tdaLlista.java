@@ -85,10 +85,11 @@ public class tdaLlista {
                        imprimir("No s'ha pogut eliminar la posició.");
 
                    }
-                    break;/*
-                case 5:
-                    suprimir_dada();
                     break;
+                case 5:
+                    cognom = readString("Introdueix un cognom per eliminar totes les coincidencies");
+                    System.out.print("S'han suprimit "+suprimir_dada(cognom)+" ocurrències.");
+                    break;/*
                 case 6:
                     anula();
                     break;
@@ -122,14 +123,10 @@ public class tdaLlista {
             quantitat++;
             return true;
         }
-
     }
-
-
 
     /*Funció Localitzar*/
     int localitzar(String cognom){
-        int posicio = 0;
         for (int i = 0; i < quantitat; i++){
             if(llistaArray[i].equalsIgnoreCase(cognom)){
                 return i;
@@ -166,7 +163,18 @@ public class tdaLlista {
         }
     }
 
-
+    /*Funcio Suprimir dada*/
+    int suprimir_dada(String cognom){
+        int elements = 0;
+        for(int i = (quantitat -1); i>=0;i--){
+            if(llistaArray[i].equalsIgnoreCase(cognom)){
+                eliminarPosicio(i);
+                elements++;
+                quantitat--;
+            }
+        }
+        return elements;
+    }
     /*Funció Imprimir Array*/
     void imprimirArray(){
         if(isEmpty()){
@@ -178,6 +186,7 @@ public class tdaLlista {
             }
         }
     }
+
     /*###############################################
     Funcions aux. tdaLlista
     ###############################################*/
