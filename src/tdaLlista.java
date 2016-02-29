@@ -119,7 +119,7 @@ public class tdaLlista {
                     imprimir(darrer());
                     break;
                 case 9:
-                    imprimirArray();
+                    imprimirLlista();
                     break;
                 case 10:
                     ordena();   //S'ordena la array lexicogràficament
@@ -254,12 +254,12 @@ public class tdaLlista {
     String darrer(){
         return recuperar(quantitat-1);
     }
-    /*Funció Imprimir Array*/
+    /*Funció Imprimir Llista*/
 
 	/**
 	 * Aquesta funció imprimeix el contingut de la array
      */
-    void imprimirArray(){
+    void imprimirLlista(){
         if(isEmpty()){
             imprimir("La llista està buida");
         }
