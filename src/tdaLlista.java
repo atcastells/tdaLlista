@@ -304,6 +304,12 @@ public class tdaLlista {
     Funcions auxiliars
     ###############################################*/
 
+
+    /**
+     * Funció que imprimeix les opcions del menú i ens retorna la opció elegida.
+     * @param menu Variable amb la llista de opcions del menu
+     * @return  retorna un enter amb la opció elegida del menú
+     */
     int funcioMenu(String[] menu) {                                     //Retorna la opcio del menu
         for (int i = 0; i < menu.length; i++) {
             System.out.println(menu[i]);
@@ -312,6 +318,11 @@ public class tdaLlista {
         return opcio;
     }
 
+    /**
+     * Funció que comprova si a la posició que li indiquem es pot inserir una dada.
+     * @param pos Variable amb el nº de posició que es vol comprovar.
+     * @return Retorna true si la posició compleix les condicions isEmpty i !isFull.
+     */
     boolean potInserir(int pos) {                                   //Boolea per cuan es pot inserir
         if(quantitat >= 0 && pos <= quantitat){
             return (isEmpty() || !isFull());
@@ -320,6 +331,12 @@ public class tdaLlista {
             return false;
         }
     }
+
+    /**
+     * Funció que comprova si es passa del limit de la llista.
+     * @param pos   Variable amb el nº de posició que es vol comprovar.
+     * @return Retorna true si la posicio es >= 0 i < quantitat.
+     */
     boolean limit(int pos) {                                   //Boolea per cuan no es pot eliminar
         if (pos >= 0 && pos < quantitat) {
             return true;
