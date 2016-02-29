@@ -20,9 +20,20 @@ public class tdaLlista {
 
     /*Variables Globals*/
 
-    public final int CAPACITAT= 3;    //Constant max. Array
-    public String[] llistaArray = new String[CAPACITAT];
-    public int quantitat = 0;   //Variable elements array
+    /**
+     * Constant màxim Array
+     */
+    public final int CAPACITAT= 3;
+
+    /**
+     * Array que conté els cognoms
+     */
+    public String[] arrayLlista = new String[CAPACITAT];
+
+    /**
+     * Variable elements array
+     */
+    public int quantitat = 0;
 
     public static void main(String[] args) {
         new tdaLlista().inici();
@@ -54,9 +65,9 @@ public class tdaLlista {
             /*S'executa la opció seleccionada*/
             switch (opcio) {
                 case 1:
-                       int  posicio = readInt("Introdueix una posició entre "+0+" i "+quantitat+": ");
+                       int  pos = readInt("Introdueix una posició entre "+0+" i "+quantitat+": ");
                     String cognom = readString("Introdueix un Cognom: ");
-                    if (inserir(cognom, posicio,llistaArray)) { //Cridem a la funció inserir amb les dades anteriors
+                    if (inserir(cognom, pos)) { //Cridem a la funció inserir amb les dades anteriors
                         imprimir("S'ha inserit correctament");
                     }
                     else {
@@ -65,27 +76,27 @@ public class tdaLlista {
                     break;
                 case 2:
                     cognom = readString("Introdueix un Cognom per buscar: ");
-                    int posicioCognom = localitzar(cognom); //Cridem la funció localitzar amb el cognom introduït i retornem la posició
-                    if(posicioCognom == -1){
+                    int posCognom = localitzar(cognom); //Cridem la funció localitzar amb el cognom introduït i retornem la posició
+                    if(posCognom == -1){
                         imprimir("No s'ha trobat el cognom.");
                     }
                     else{
-                        imprimir("El cognom '"+cognom+"' està a la posició nº: "+posicioCognom);
+                        imprimir("El cognom '"+cognom+"' està a la posició nº: "+posCognom);
                     }
                     break;
                 case 3:
-                    posicio = readInt("Introdueix una posició per recuperar les dades que té: ");
-                    cognom = recuperar(posicio);
+                    pos = readInt("Introdueix una posició per recuperar les dades que té: ");
+                    cognom = recuperar(pos);    //Cridem la funcio recuperar amb la posició llegida
                     if (cognom.equalsIgnoreCase("null")){
                         imprimir("No hi han dades en aquesta posició.");
                     }
                     else{
-                        imprimir("A la posició nº"+posicio+" està el cognom: "+cognom);
+                        imprimir("A la posició nº"+pos+" està el cognom: "+cognom);
                     }
                     break;
                 case 4:
-                   posicio = readInt("Introdueix una posició per eliminar les seves dades: ");
-                   if ( suprimir(posicio)){
+                   pos = readInt("Introdueix una posició per eliminar les seves dades: ");
+                   if ( suprimir(pos)){ //Cridem la funció suprimir amb la posició llegida
                        imprimir("S'ha suprimit la dada correctament");
                    }
                     else{
@@ -95,14 +106,14 @@ public class tdaLlista {
                     break;
                 case 5:
                     cognom = readString("Introdueix un cognom per eliminar totes les coincidencies");
-                    System.out.print("S'han suprimit "+suprimir_dada(cognom)+" ocurrències.");
+                    System.out.print("S'han suprimit "+suprimir_dada(cognom)+" ocurrències.");  //Cridem la funció suprimir_dada amb el cognom introduït anteriorment
                     break;
                 case 6:
                     imprimir("Llista anulada.");
                     anula();
                     break;
                 case 7:
-                    imprimir(primer());
+                   if(primer().equalsIgnoreCase("null"))
                     break;
                 case 8:
                     imprimir(darrer());
@@ -111,7 +122,7 @@ public class tdaLlista {
                     imprimirArray();
                     break;
                 case 10:
-                    ordena();
+                    ordena();   //S'ordena la array lexicogràficament
                     break;
             }
             Scanner sc = new Scanner(System.in);
@@ -121,22 +132,35 @@ public class tdaLlista {
     }
 
     /*Funcio Inserir*/
-    boolean inserir(String cognom, int posicio, String[] cognoms) {
-        if(!potInserir(posicio)){
+
+    /**
+     *  Aquesta funció insereix un cognom a la posició indicada
+     * @param cognom  cognom a inserir
+     * @param pos posició per al cognom
+     * @return  true si s'ha pogut inserir
+     */
+    boolean inserir(String cognom, int pos) {
+        if(!potInserir(pos)){
             return false;
         }
         else{
-            desplaçarLlista(posicio);
-           cognoms[posicio] = cognom;
+            desplaçarLlista(pos);
+           arrayLlista[pos] = cognom;
             quantitat++;
             return true;
         }
     }
 
     /*Funció Localitzar*/
+
+    /**
+     * Aquesta funció localitza un cognom a la array
+     * @param cognom variable que buscarà a la array
+     * @return retorna la posició si la troba o -1 sinó
+     */
     int localitzar(String cognom){
         for (int i = 0; i < quantitat; i++){
-            if(llistaArray[i].equalsIgnoreCase(cognom)){
+            if(arrayLlista[i].equalsIgnoreCase(cognom)){
                 return i;
             }
         }
@@ -144,9 +168,15 @@ public class tdaLlista {
     }
 
     /*Funció recuperar*/
-    String recuperar(int posicio){
-        if(posicio < quantitat && !isEmpty()){
-            return llistaArray[posicio];
+
+    /**
+     * Aquesta funció recupera el cognom que hi ha a una posició
+     * @param pos posició de la qual buscarà el contingut.
+     * @return retorna el contingut de la posició o "null" si no ho troba.
+     */
+    String recuperar(int pos){
+        if(pos < quantitat && !isEmpty()){
+            return arrayLlista[pos];
         }
         else{
             return "null";
@@ -154,17 +184,23 @@ public class tdaLlista {
     }
 
     /*Funció Suprimir*/
-    boolean suprimir(int posicio){
-        if (isEmpty() || !limit(posicio)){
+
+    /**
+     * Aquesta funció suprimeix el contingut de la posició indicada.
+     * @param pos posició a eliminar el contingut
+     * @return retorna true si s'ha eliminat el contingut
+     */
+    boolean suprimir(int pos){
+        if (isEmpty() || !limit(pos)){
             return false;
         }
         else{
-            if(posicio == quantitat){
+            if(pos == quantitat){
                 quantitat--;
                 return true;
             }
             else{
-                eliminarPosicio(posicio);
+                eliminarpos(pos);
                 quantitat--;
                 return true;
             }
@@ -172,47 +208,80 @@ public class tdaLlista {
     }
 
     /*Funcio Suprimir dada*/
+
+	/**
+	 * Aquesta funció elimina totes les aparicions d'un cognom
+     * @param cognom variable del cognom a eliminar
+     * @return retorna el nº de ocurrències eliminades
+     */
     int suprimir_dada(String cognom){
         int elements = 0;
         for(int i = (quantitat -1); i>=0;i--){
-            if(llistaArray[i].equalsIgnoreCase(cognom)){
-                eliminarPosicio(i);
+            if(arrayLlista[i].equalsIgnoreCase(cognom)){
+                eliminarpos(i);
                 elements++;
                 quantitat--;
             }
         }
         return elements;
     }
+
+    /*Funció anul·la*/
+
+	/**
+     * Aquesta funció anul·la la llista (quantitat = 0)
+     */
     void anula(){
     quantitat = 0;
     }
 
-   String primer(){
+    /*Funció primer*/
+
+	/**
+     * Aquesta funció retorna el primer element de la llista
+     * @return el cognom a posició 0 de la llista.
+     */
+    String primer(){
     return recuperar(0);
    }
 
+    /*Funció darrer*/
+
+	/**
+	 * Aquesta funció retorna el últim element de la llista
+     * @return el cognom a posició (quantitat -1) de la llista
+     */
     String darrer(){
         return recuperar(quantitat-1);
     }
     /*Funció Imprimir Array*/
+
+	/**
+	 * Aquesta funció imprimeix el contingut de la array
+     */
     void imprimirArray(){
         if(isEmpty()){
             imprimir("La llista està buida");
         }
         else {
             for (int i = 0; i < quantitat; i++) {
-                imprimir("#" + i + "\t" + llistaArray[i]);
+                imprimir("#" + i + "\t" + arrayLlista[i]);
             }
         }
     }
 
+    /*Funció ordena*/
+
+	/**
+	 * Aquesta funció ordena el contingut de la array lexicogràficament
+     */
     void ordena(){
         for (int i = 0; i< quantitat;i++){
             for(int j = i+1; j < quantitat;j++){
-                if (llistaArray[i].compareToIgnoreCase(llistaArray[j]) > 0){
-                    String temp = llistaArray[j];
-                    llistaArray[j] = llistaArray[i];
-                    llistaArray[i] = temp;
+                if (arrayLlista[i].compareToIgnoreCase(arrayLlista[j]) > 0){
+                    String temp = arrayLlista[j];
+                    arrayLlista[j] = arrayLlista[i];
+                    arrayLlista[i] = temp;
                 }
             }
 
@@ -243,16 +312,16 @@ public class tdaLlista {
         return opcio;
     }
 
-    boolean potInserir(int posicio) {                                   //Boolea per cuan es pot inserir
-        if(quantitat >= 0 && posicio <= quantitat){
+    boolean potInserir(int pos) {                                   //Boolea per cuan es pot inserir
+        if(quantitat >= 0 && pos <= quantitat){
             return (isEmpty() || !isFull());
         }
         else {
             return false;
         }
     }
-    boolean limit(int posicio) {                                   //Boolea per cuan no es pot eliminar
-        if (posicio >= 0 && posicio < quantitat) {
+    boolean limit(int pos) {                                   //Boolea per cuan no es pot eliminar
+        if (pos >= 0 && pos < quantitat) {
             return true;
         } else {
             return false;
@@ -282,14 +351,14 @@ public class tdaLlista {
         System.out.print(text+"\n");
     }
 
-    void desplaçarLlista(int posicio){                  //Funció per lliberar un espai a la array;
-        for(int i = quantitat;i > posicio;i--){
-            llistaArray[i] = llistaArray[i-1];
+    void desplaçarLlista(int pos){                  //Funció per lliberar un espai a la array;
+        for(int i = quantitat;i > pos;i--){
+            arrayLlista[i] = arrayLlista[i-1];
         }
     }
-    void eliminarPosicio(int x){
+    void eliminarpos(int x){
         for(int i = x ; i < quantitat ;i++){
-            llistaArray[i] = llistaArray[i+1];
+            arrayLlista[i] = arrayLlista[i+1];
         }
     }
 }
