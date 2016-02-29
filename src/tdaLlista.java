@@ -43,13 +43,20 @@ public class tdaLlista {
                 "11\tSurt"
         };
         int opcio = 0;  //Control switch
+
+        /*Mentre la opció sigui mes menuda que 11*/
+
         while (opcio < menu.length) {
+
+            /* S'imprimeix el menú i es selecciona una opció*/
             opcio = funcioMenu(menu);
+
+            /*S'executa la opció seleccionada*/
             switch (opcio) {
                 case 1:
                        int  posicio = readInt("Introdueix una posició entre "+0+" i "+quantitat+": ");
                     String cognom = readString("Introdueix un Cognom: ");
-                    if (inserir(cognom, posicio,llistaArray)) {
+                    if (inserir(cognom, posicio,llistaArray)) { //Cridem a la funció inserir amb les dades anteriors
                         imprimir("S'ha inserit correctament");
                     }
                     else {
@@ -58,7 +65,7 @@ public class tdaLlista {
                     break;
                 case 2:
                     cognom = readString("Introdueix un Cognom per buscar: ");
-                    int posicioCognom = localitzar(cognom);
+                    int posicioCognom = localitzar(cognom); //Cridem la funció localitzar amb el cognom introduït i retornem la posició
                     if(posicioCognom == -1){
                         imprimir("No s'ha trobat el cognom.");
                     }
@@ -89,22 +96,23 @@ public class tdaLlista {
                 case 5:
                     cognom = readString("Introdueix un cognom per eliminar totes les coincidencies");
                     System.out.print("S'han suprimit "+suprimir_dada(cognom)+" ocurrències.");
-                    break;/*
+                    break;
                 case 6:
+                    imprimir("Llista anulada.");
                     anula();
                     break;
                 case 7:
-                    primer();
+                    imprimir(primer());
                     break;
                 case 8:
-                    darrer();
+                    imprimir(darrer());
                     break;
-                */case 9:
+                case 9:
                     imprimirArray();
-                    break;/*
+                    break;
                 case 10:
                     ordena();
-                    break;*/
+                    break;
             }
             Scanner sc = new Scanner(System.in);
             System.out.println("\nPrem enter per continuar... ");
@@ -175,6 +183,17 @@ public class tdaLlista {
         }
         return elements;
     }
+    void anula(){
+    quantitat = 0;
+    }
+
+   String primer(){
+    return recuperar(0);
+   }
+
+    String darrer(){
+        return recuperar(quantitat-1);
+    }
     /*Funció Imprimir Array*/
     void imprimirArray(){
         if(isEmpty()){
@@ -184,6 +203,19 @@ public class tdaLlista {
             for (int i = 0; i < quantitat; i++) {
                 imprimir("#" + i + "\t" + llistaArray[i]);
             }
+        }
+    }
+
+    void ordena(){
+        for (int i = 0; i< quantitat;i++){
+            for(int j = i+1; j < quantitat;j++){
+                if (llistaArray[i].compareToIgnoreCase(llistaArray[j]) > 0){
+                    String temp = llistaArray[j];
+                    llistaArray[j] = llistaArray[i];
+                    llistaArray[i] = temp;
+                }
+            }
+
         }
     }
 
