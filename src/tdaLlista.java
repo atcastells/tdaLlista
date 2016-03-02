@@ -13,6 +13,7 @@
  *                             Surt
  *
  */
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class tdaLlista {
@@ -23,7 +24,7 @@ public class tdaLlista {
     /**
      * Constant màxim Array
      */
-    public final int CAPACITAT= 3;
+    public final int CAPACITAT= 100;
 
     /**
      * Array que conté els cognoms
@@ -65,7 +66,7 @@ public class tdaLlista {
             /*S'executa la opció seleccionada*/
             switch (opcio) {
                 case 1:
-                       int  pos = readInt("Introdueix una posició entre "+0+" i "+quantitat+": ");
+                       int  pos = readInt("Introdueix una posició entre "+1+" i "+(quantitat+1)+": ") -1;
                     String cognom = readString("Introdueix un Cognom: ");
                     if (inserir(cognom, pos)) { //Cridem a la funció inserir amb les dades anteriors
                         imprimir("S'ha inserit correctament");
@@ -81,21 +82,21 @@ public class tdaLlista {
                         imprimir("No s'ha trobat el cognom.");
                     }
                     else{
-                        imprimir("El cognom '"+cognom+"' està a la posició nº: "+posCognom);
+                        imprimir("El cognom '"+cognom+"' està a la posició nº: "+(posCognom+1));
                     }
                     break;
                 case 3:
-                    pos = readInt("Introdueix una posició per recuperar les dades que té: ");
+                    pos = readInt("Introdueix una posició per recuperar les dades que té: ")-1;
                     cognom = recuperar(pos);    //Cridem la funcio recuperar amb la posició llegida
                     if (cognom.equalsIgnoreCase("null")){
                         imprimir("No hi han dades en aquesta posició.");
                     }
                     else{
-                        imprimir("A la posició nº"+pos+" està el cognom: "+cognom);
+                        imprimir("A la posició nº"+(pos+1)+" està el cognom: "+cognom);
                     }
                     break;
                 case 4:
-                   pos = readInt("Introdueix una posició per eliminar les seves dades: ");
+                   pos = readInt("Introdueix una posició per eliminar les seves dades: ")-1;
                    if ( suprimir(pos)){ //Cridem la funció suprimir amb la posició llegida
                        imprimir("S'ha suprimit la dada correctament");
                    }
@@ -105,8 +106,8 @@ public class tdaLlista {
                    }
                     break;
                 case 5:
-                    cognom = readString("Introdueix un cognom per eliminar totes les coincidencies");
-                    System.out.print("S'han suprimit "+suprimir_dada(cognom)+" ocurrències.");  //Cridem la funció suprimir_dada amb el cognom introduït anteriorment
+                    cognom = readString("Introdueix un cognom per eliminar totes les coincidencies: ");
+                    System.out.print("S'han suprimit "+suprimirDada(cognom)+" ocurrències.");  //Cridem la funció suprimirDada amb el cognom introduït anteriorment
                     break;
                 case 6:
                     imprimir("Llista anulada.");
@@ -128,6 +129,8 @@ public class tdaLlista {
             Scanner sc = new Scanner(System.in);
             System.out.println("\nPrem enter per continuar... ");
             sc.nextLine();
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
         }
     }
 
@@ -214,7 +217,7 @@ public class tdaLlista {
      * @param cognom variable del cognom a eliminar.
      * @return retorna el nº de ocurrències eliminades.
      */
-    int suprimir_dada(String cognom){
+    int suprimirDada(String cognom){
         int elements = 0;
         for(int i = (quantitat -1); i>=0;i--){
             if(arrayLlista[i].equalsIgnoreCase(cognom)){
@@ -265,7 +268,7 @@ public class tdaLlista {
         }
         else {
             for (int i = 0; i < quantitat; i++) {
-                imprimir("#" + i + "\t" + arrayLlista[i]+"\n");
+                imprimir("#" + (i+1) + "\t" + arrayLlista[i]+"\n");
             }
         }
     }
