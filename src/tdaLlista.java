@@ -13,8 +13,8 @@
  *                             Surt
  *
  */
-import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 public class tdaLlista {
 
@@ -41,7 +41,7 @@ public class tdaLlista {
     }
 
     public void inici() {
-        String[] menu = {   //Array amb les opcions del menu
+        String[] menuOptions = {   //Array amb les opcions del menu
                 "1\tInserir",
                 "2\tLocalitzar",
                 "3\tRecuperar",
@@ -52,16 +52,17 @@ public class tdaLlista {
                 "8\tDarrer",
                 "9\tImprimir",
                 "10\tOrdena",
-                "11\tSurt"
+                "11\tTest",
+                "12\tSurt"
         };
         int opcio = 0;  //Control switch
 
         /*Mentre la opció sigui mes menuda que 11*/
 
-        while (opcio < menu.length) {
+        while (opcio < menuOptions.length) {
 
             /* S'imprimeix el menú i es selecciona una opció*/
-            opcio = funcioMenu(menu);
+            opcio = funcioMenu(menuOptions);
 
             /*S'executa la opció seleccionada*/
             switch (opcio) {
@@ -88,7 +89,7 @@ public class tdaLlista {
                 case 3:
                     pos = readInt("Introdueix una posició per recuperar les dades que té: ")-1;
                     cognom = recuperar(pos);    //Cridem la funcio recuperar amb la posició llegida
-                    if (cognom.equalsIgnoreCase("null")){
+                    if (cognom == null){
                         imprimir("No hi han dades en aquesta posició.");
                     }
                     else{
@@ -125,12 +126,13 @@ public class tdaLlista {
                 case 10:
                     ordena();   //S'ordena la array lexicogràficament
                     break;
+                case 11:
+                    test();
+                    break;
             }
             Scanner sc = new Scanner(System.in);
             System.out.println("\nPrem enter per continuar... ");
             sc.nextLine();
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
         }
     }
 
@@ -145,6 +147,11 @@ public class tdaLlista {
     boolean inserir(String cognom, int pos) {
         if(!potInserir(pos)){
             return false;
+        }
+        if(pos == quantitat){
+            arrayLlista[pos] = cognom;
+            quantitat++;
+            return true;
         }
         else{
             desplaçarLlista(pos);
@@ -178,11 +185,11 @@ public class tdaLlista {
      * @return retorna el contingut de la posició o "null" si no ho troba.
      */
     String recuperar(int pos){
-        if(pos < quantitat && !isEmpty()){
+        if(!isEmpty() && limit(pos)){
             return arrayLlista[pos];
         }
         else{
-            return "null";
+            return null;
         }
     }
 
@@ -335,8 +342,8 @@ public class tdaLlista {
      * @return Retorna true si la posició compleix les condicions isEmpty i !isFull.
      */
     boolean potInserir(int pos) {
-        if(quantitat >= 0 && pos <= quantitat){
-            return (isEmpty() || !isFull());
+        if(pos >= 0 && pos <= quantitat){
+            return (!isFull());
         }
         else {
             return false;
@@ -419,5 +426,110 @@ public class tdaLlista {
             arrayLlista[i] = arrayLlista[i+1];
         }
     }
+
+    boolean test() {
+        anula();
+
+		/* Test inserir */
+
+        System.out.println("Testing inserir...");
+        Random r = new Random(123);
+        for(int i = 0; i< CAPACITAT+3;i++){
+            inserir(r.nextInt()+"", 0);
+            imprimir("#"+i+"\t"+recuperar(0)+"\n");
+            ordena();
+        }
+        imprimirLlista();
+        anula();
+        if (inserir("Test", -1)) return false;
+        if (inserir("Test", 1)) return false;
+        if (!inserir("Test1", 0)) return false;
+        if (!inserir("Test2", 1)) return false;
+        if (!inserir("Test3", 0)) return false;
+        if (!inserir("Test4", 1)) return false;
+
+        System.out.println("Inserir OK");
+
+		/* Test localitzar */
+        System.out.println("Testing localitzar...");
+        if (localitzar("Test") != -1) return false;
+        if (localitzar("Test1") != 2) return false;
+        if (localitzar("Test3") != 0) return false;
+        if (localitzar("Test4") != 1) return false;
+        System.out.println("Localitzar OK");
+
+        /* Test recuperar */
+        System.out.println("Testing recuperar...");
+        if (recuperar(-5) != null) return false;
+        if (!recuperar(0).equals("Test3")) return false;
+        if (recuperar(2).equals("Test2")) return false;
+        if (recuperar(-5) != null) return false;
+        System.out.println("Recuperar OK");
+
+        /* Test suprimir */
+        System.out.println("Testing suprimir...");
+        if (suprimir(-2)) return false;
+        if (suprimir(4)) return false;
+        if (!suprimir(3)) return false;
+        if (!suprimir(0)) return false;
+        System.out.println("Suprimir OK");
+
+        /* Test suprimir dada*/
+        System.out.println("Testing suprimirDada...");
+        anula();
+        inserir("Test1", 0);
+        inserir("Test2", 1);
+        inserir("Test3", 2);
+        inserir("Test2", 3);
+        inserir("Test4", 4);
+
+        if (suprimirDada("Test") != 0) return false;
+        if (suprimirDada("Test2") != 2) return false;
+        if (suprimirDada("Test4") != 1) return false;
+        if (suprimirDada("Test1") != 1) return false;
+        System.out.println("Suprimir OK");
+
+
+        /* Test ordenar */
+        System.out.println("Testing ordenar...");
+        String[] str = {"Test1", "Test2", "Test3", "Test4", "Test5"};
+        anula();
+        inserir("Test1", 0);
+        inserir("Test2", 1);
+        inserir("Test3", 2);
+        inserir("Test4", 3);
+        inserir("Test5", 4);
+        ordena();
+        for (int i = 0; i < str.length; i++) {
+            if (!str[i].equals(arrayLlista[i])) return false;
+        }
+
+        anula();
+        inserir("Test5", 0);
+        inserir("Test4", 1);
+        inserir("Test3", 2);
+        inserir("Test2", 3);
+        inserir("Test1", 4);
+        ordena();
+        for (int i = 0; i < str.length; i++) {
+            if (!str[i].equals(arrayLlista[i])) return false;
+        }
+
+        anula();
+        inserir("Test4", 0);
+        inserir("Test1", 1);
+        inserir("Test5", 2);
+        inserir("Test3", 3);
+        inserir("Test2", 4);
+        ordena();
+        for (int i = 0; i < str.length; i++) {
+            if (!str[i].equals(arrayLlista[i])) return false;
+        }
+        System.out.println("Ordenar OK");
+
+        anula();
+        return true;
+    }
+
 }
 
