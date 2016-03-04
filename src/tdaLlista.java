@@ -1,8 +1,10 @@
 /**
- *          Created by acastells on 12/02/16.
+ *          Creat pel grup 2 de M03 el 04/03/2016.
  *          Grup  2:    Oscar Oliver, Adrià Montoro, Aaron Castells
  *
- *          Implementació del TDA Llista en java utilitzant funcions
+ *          Implementació del TDA Llista en java utilitzant funcions.
+ *
+ *          Versió: 1.0
  *
  *          Algorisme:
  *                      S'imprimeix el menú
@@ -14,7 +16,6 @@
  *
  */
 import java.util.InputMismatchException;
-import java.util.Random;
 import java.util.Scanner;
 public class tdaLlista {
 
@@ -154,7 +155,7 @@ public class tdaLlista {
             return true;
         }
         else{
-            desplaçarLlista(pos);
+            addPosition(pos);
            arrayLlista[pos] = cognom;
             quantitat++;
             return true;
@@ -210,7 +211,7 @@ public class tdaLlista {
                 return true;
             }
             else{
-                eliminarpos(pos);
+                removePosition(pos);
                 quantitat--;
                 return true;
             }
@@ -228,7 +229,7 @@ public class tdaLlista {
         int elements = 0;
         for(int i = (quantitat -1); i>=0;i--){
             if(arrayLlista[i].equalsIgnoreCase(cognom)){
-                eliminarpos(i);
+                removePosition(i);
                 elements++;
                 quantitat--;
             }
@@ -411,7 +412,7 @@ public class tdaLlista {
      * Funció que allibera un espai a la llista per poder inserir dades en aquesta posició.
      * @param pos Variable amb el nº de posició a alliberar.
      */
-    void desplaçarLlista(int pos){
+    void addPosition(int pos){
         for(int i = quantitat;i > pos;i--){
             arrayLlista[i] = arrayLlista[i-1];
         }
@@ -421,7 +422,7 @@ public class tdaLlista {
      * Funció que elimina una posició de la llista.
      * @param pos Variable amb el nº de posició a eliminar.
      */
-    void eliminarpos(int pos){
+    void removePosition(int pos){
         for(int i = pos ; i < quantitat ;i++){
             arrayLlista[i] = arrayLlista[i+1];
         }
@@ -433,14 +434,6 @@ public class tdaLlista {
 		/* Test inserir */
 
         System.out.println("Testing inserir...");
-        Random r = new Random(123);
-        for(int i = 0; i< CAPACITAT+3;i++){
-            inserir(r.nextInt()+"", 0);
-            imprimir("#"+i+"\t"+recuperar(0)+"\n");
-            ordena();
-        }
-        imprimirLlista();
-        anula();
         if (inserir("Test", -1)) return false;
         if (inserir("Test", 1)) return false;
         if (!inserir("Test1", 0)) return false;
