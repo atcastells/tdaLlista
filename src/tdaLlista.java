@@ -428,11 +428,16 @@ public class tdaLlista {
 		}
 	}
 
+
+	/**
+	 * Funció que comprova la llista en busca de posibles sortides de memoria a les arrays i altres errors.
+	 * @return Retorna true si el test s'ha superat correctament
+	 */
+
 	boolean test() {
 		anula();
 
 		/* Test inserir */
-
 		System.out.println("Testing inserir...");
 		if (inserir("Test", -1)) return false;
 		if (inserir("Test", 1)) return false;
