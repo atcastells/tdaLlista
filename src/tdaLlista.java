@@ -43,18 +43,18 @@ public class tdaLlista {
 
     public void inici() {
         String[] menuOptions = {   //Array amb les opcions del menu
-                "1\tInserir",
-                "2\tLocalitzar",
-                "3\tRecuperar",
-                "4\tSuprimir",
-                "5\tSuprimir dada",
-                "6\tAnul·la",
-                "7\tPrimer",
-                "8\tDarrer",
-                "9\tImprimir",
-                "10\tOrdena",
-                "11\tTest",
-                "12\tSurt"
+                "Inserir",
+                "Localitzar",
+                "Recuperar",
+                "Suprimir",
+                "Suprimir dada",
+                "Anul·la",
+                "Primer",
+                "Darrer",
+                "Imprimir",
+                "Ordena",
+                "Test",
+                "Surt"
         };
         int opcio = 0;  //Control switch
 
@@ -331,7 +331,7 @@ public class tdaLlista {
      */
     int funcioMenu(String[] menu) {
         for (int i = 0; i < menu.length; i++) {
-            imprimir(menu[i]+"\n");
+            imprimir("#"+(i+1)+"\t"+menu[i]+"\n");
         }
         int opcio = readInt("Introdueix una opció del menú: ");
         return opcio;
