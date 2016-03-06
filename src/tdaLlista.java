@@ -9,18 +9,19 @@
  *          Algorisme:
  *                      S'imprimeix el menú
  *                      S'elegeix una opció del menú
- *                      Mentre la opció sigui mes menuda que 11
+ *                      Mentre la opció sigui diferent a la de sortir
  *                           S'executa la opció seleccionada
  *                      Sinó
  *                             Surt
  *
  */
+ 
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 public class tdaLlista {
 
-
-	/*Variables Globals*/
+	/* Variables del TDA Llista */
 
 	/**
 	 * Constant màxim Array
@@ -36,6 +37,7 @@ public class tdaLlista {
 	 * Variable elements array
 	 */
 	public int quantitat = 0;
+
 
 	public static void main(String[] args) {
 		new tdaLlista().inici();
@@ -57,18 +59,19 @@ public class tdaLlista {
 				"Surt"
 		};
 		int opcio = 0;  //Control switch
-
-		/*Mentre la opció sigui mes menuda que 11*/
-
-		while (opcio < menuOptions.length) {
+		final int EXIT_OPTION = menuOptions.length;	// Opcio de sortir
+		
+		/* Mentre la opció sigui diferent a la de sortir */
+		while (opcio != EXIT_OPTION) {
 
 			/* S'imprimeix el menú i es selecciona una opció*/
 			opcio = funcioMenu(menuOptions);
 
 			/*S'executa la opció seleccionada*/
 			switch (opcio) {
+				// Inserir
 				case 1:
-					   int  pos = readInt("Introdueix una posició entre "+1+" i "+(quantitat+1)+": ") -1;
+					int  pos = readInt("Introdueix una posició entre 1 i "+(quantitat+1)+": ") -1;
 					String cognom = readString("Introdueix un Cognom: ");
 					if (inserir(cognom, pos)) { //Cridem a la funció inserir amb les dades anteriors
 						imprimir("S'ha inserit correctament");
@@ -77,6 +80,8 @@ public class tdaLlista {
 						imprimir("Posició incorrecta");
 					}
 					break;
+					
+				// Localitzar
 				case 2:
 					cognom = readString("Introdueix un Cognom per buscar: ");
 					int posCognom = localitzar(cognom); //Cridem la funció localitzar amb el cognom introduït i retornem la posició
@@ -87,6 +92,8 @@ public class tdaLlista {
 						imprimir("El cognom '"+cognom+"' està a la posició nº: "+(posCognom+1));
 					}
 					break;
+					
+				// Recuperar
 				case 3:
 					pos = readInt("Introdueix una posició per recuperar les dades que té: ")-1;
 					cognom = recuperar(pos);    //Cridem la funcio recuperar amb la posició llegida
@@ -97,6 +104,8 @@ public class tdaLlista {
 						imprimir("A la posició nº"+(pos+1)+" està el cognom: "+cognom);
 					}
 					break;
+				
+				
 				case 4:
 				   pos = readInt("Introdueix una posició per eliminar les seves dades: ")-1;
 				   if ( suprimir(pos)){ //Cridem la funció suprimir amb la posició llegida
