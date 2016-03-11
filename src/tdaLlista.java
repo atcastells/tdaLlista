@@ -177,7 +177,7 @@ public class tdaLlista {
 	String tostring (){
 		String llista = "";
 		for (int i = 0; i < quantitat; i++){
-			llista +="#"+i+"\t"+recuperar(i) + "\n";
+			llista +="#"+(i+1)+"\t"+recuperar(i) + "\n";
 		}
 		return llista;
 	}
