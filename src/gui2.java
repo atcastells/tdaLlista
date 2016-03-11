@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,12 +17,17 @@ public class gui2 {
 	}
 
 	void makeFrame(){
+		JTextArea sortida = new JTextArea(10, 10);
+		sortida.setText("Escriu algo");
+		sortida.setEnabled(false);
 		JFrame window = new JFrame("Llista");
-		window.setSize(300, 500);
+		window.setSize(500, 500);
+		window.setLayout(new BorderLayout(1,1));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JPanel panel = (JPanel)window.getContentPane();
 		JPanel buttonsPanel = new JPanel();
+		buttonsPanel.setLayout(new GridLayout(0,1));
 
 		JButton inserir = new JButton("Inserir");
 		inserir.addActionListener(new ActionListener() {
@@ -44,10 +50,13 @@ public class gui2 {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
 				System.out.print(llista.primer());
+
+
 			}
 		});
 		buttonsPanel.add(primer);
-		panel.add(buttonsPanel);
+		panel.add(buttonsPanel, BorderLayout.WEST);
+		panel.add(sortida, BorderLayout.EAST);
 		window.setVisible(true);
 	}
 }
