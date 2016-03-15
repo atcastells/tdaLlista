@@ -1,4 +1,4 @@
-import com.sun.deploy.panel.ExceptionListDialog;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -58,6 +58,7 @@ public class gui2 {
 						imprimir("Posició erronea", sortida);
 					}
 				}
+				imprimir(llista.tostring(),sortida);
 			}
 		});
 		buttonsPanel.add(inserir);
